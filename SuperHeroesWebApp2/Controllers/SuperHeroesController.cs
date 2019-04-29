@@ -18,7 +18,8 @@ namespace SuperHeroesWebApp2.Controllers
         // GET: SuperHeroes
         public ActionResult Index()
         {
-            return View();
+            SuperHero superhero = new SuperHero();
+            return View(superhero);
         }
 
         // GET: SuperHeroes/Details/5
@@ -54,17 +55,25 @@ namespace SuperHeroesWebApp2.Controllers
         // GET: SuperHeroes/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            SuperHero superHero = new SuperHero();
+            return View(superHero);
         }
 
         // POST: SuperHeroes/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, SuperHero superhero)
         {
             try
             {
                 // TODO: Add update logic here
 
+                SuperHero editSuperHero = context.SuperHeroes.Where(s => s.Id == id).FirstOrDefault();
+                editSuperHero.Name = superhero.Name;
+                editSuperHero.AlterEgo = superhero.AlterEgo;
+                editSuperHero.PrimaryAbility = superhero.PrimaryAbility;
+                editSuperHero.SecondaryAbility = superhero.SecondaryAbility;
+                editSuperHero.CatchPhrase = superhero.CatchPhrase;
+                context.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch
